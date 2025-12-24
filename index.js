@@ -1,3 +1,6 @@
+import page404 from "404.html";
+import page302 from "302.html";
+
 const config = {
   // 访问密码 - 请修改为你自己的密码
   access_password: "21a1202bd96731b0e4035c0c6613697bdd6859c098368f8834f510656830c983",
@@ -5,165 +8,6 @@ const config = {
   no_ref: "off", // 控制 HTTP referrer header
   cors: "on", // 允许跨域请求
   unique_link: true, // 相同的长链接生成相同的短链接
-}
-/**
- * @param code {string}
- * e.g. 401
- * @param name {string}
- * e.g. Unauthorized
- * @param msg {string}
- * e.g. Invalid password. Access denied.
- * @return {string}
- */
-function getHtml(code, name, msg){
-  return `<!DOCTYPE html>
-<html lang="${getI18n(i18nKey.Name)}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${code} ${name}</title>
-    <style>
-        :root {
-            --c-blue: #0051c3;
-            --c-gray: #313131;
-            --c-light-gray: #e0e0e0;
-            --c-bg: #fcfcfc;
-        }
-        * {
-            box-sizing: border-box;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-            background-color: var(--c-bg);
-            color: var(--c-gray);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .container {
-            max-width: 900px;
-            width: 100%;
-        }
-        .header {
-            margin-bottom: 40px;
-        }
-        .status-code {
-            font-size: 6rem;
-            font-weight: 200;
-            margin: 0;
-            line-height: 1;
-        }
-        .status-desc {
-            font-size: 1.5rem;
-            font-weight: 400;
-            margin: 10px 0 0;
-        }
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 40px;
-            margin-bottom: 60px;
-        }
-        @media (max-width: 768px) {
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        p {
-            font-size: 1rem;
-            font-weight: 600;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-        .footer {
-            border-top: 1px solid var(--c-light-gray);
-            padding-top: 20px;
-            font-size: 0.85rem;
-            color: #666;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        .footer-branding {
-            margin-left: auto;
-        }
-        .footer-branding a {
-            color: var(--c-gray);
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .footer-branding a:hover {
-            color: var(--c-blue);
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-    <div class="header">
-        <h1 class="status-code">${code}</h1>
-        <p class="status-desc">${name}</p>
-    </div>
-    <div class="content-grid">
-        <p>${msg}</p>
-    </div>
-    <div class="footer">
-        <div class="footer-branding">
-            Powered by <a href="https://github.com/TASA-Ed/Url-Shorter-Worker" target="_blank">Url-Shorter-Worker</a>
-        </div>
-    </div>
-</div>
-</body>
-</html>`
-}
-
-const i18nKey = {
-  Name: 'Name',
-  Msg404: 'Msg404',
-  Msg200: 'Msg200',
-  Msg302: 'Msg302',
-  Title302: 'Title302',
-};
-
-/**
- * @param key {string}
- */
-function getI18n(key){
-  const zh = {
-    [i18nKey.Name]: 'zh',
-    [i18nKey.Msg404]: '您所寻找的 URL 地址不存在。',
-    [i18nKey.Msg302]: '重定向至',
-    [i18nKey.Title302]: '重定向中...'
-  }
-  const en = {
-    [i18nKey.Name]: 'en',
-    [i18nKey.Msg404]: 'The URL you are looking for does not exist.',
-    [i18nKey.Msg302]: 'Redirect to',
-    [i18nKey.Title302]: 'Redirecting...'
-  }
-  let lang
-  switch (navigator.language) {
-    case "zh":
-    case 'zh-CN':
-    case 'zh-TW':
-    case 'zh-cn':
-    case 'zh-tw':
-      lang = zh;
-      break;
-    case "en":
-    case "en-US":
-    case "en-us":
-      lang = en;
-      break;
-    default:
-      lang = en;
-  }
-  return lang[key];
 }
 
 let response_header = {
@@ -390,7 +234,7 @@ async function handleRequest(request) {
 
     // 根路径返回信息
     if (!path) {
-      return new Response(getHtml("404", "Not Found", getI18n(i18nKey.Msg404)), {
+      return new Response(page404, {
         headers: {
           "content-type": "text/html;charset=UTF-8",
         },
@@ -402,7 +246,7 @@ async function handleRequest(request) {
     const targetUrl = await LINKSHORTERS.get(path)
 
     if (!targetUrl) {
-      return new Response(getHtml("404", "Not Found", getI18n(i18nKey.Msg404)), {
+      return new Response(page404, {
         headers: {
           "content-type": "text/html;charset=UTF-8",
         },
@@ -415,19 +259,7 @@ async function handleRequest(request) {
 
     // 重定向
     if (config.no_ref === "on") {
-      return new Response(`<!DOCTYPE html>
-<html lang="zh">
-<head>
-  <meta charset="UTF-8">
-  <meta name="referrer" content="no-referrer">
-  <meta http-equiv="refresh" content="0;url=${fullUrl}">
-  <title>${getI18n(i18nKey.Title302)}</title>
-</head>
-<body>
-  <script>window.location.href="${fullUrl}";</script>
-  <p>${getI18n(i18nKey.Msg302)} <a href="${fullUrl}">${fullUrl}</a></p>
-</body>
-</html>`, {
+      return new Response(page302.replace("{url}", fullUrl), {
         headers: {
           "content-type": "text/html;charset=UTF-8",
         },
