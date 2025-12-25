@@ -1,0 +1,21 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "url-shorter-worker",
+  "workers_dev": true,
+  "preview_urls": false,
+  "main": "src/index.ts",
+  "compatibility_date": "2025-12-24",
+  "observability": {
+    "enabled": false
+  },
+  "kv_namespaces": [
+    {
+      "id": "<id>",
+      "binding": "LINKSHORTERS"
+    }
+  ]
+}

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>{code} {name}</title>
+    <style>
+        :root {
+            --c-blue: #0051c3;
+            --c-gray: #313131;
+            --c-light-gray: #e0e0e0;
+            --c-bg: #fcfcfc;
+        }
+
+        /* 深色 */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --c-blue: #6a9fef;
+                --c-gray: #e0e0e0;
+                --c-light-gray: #313131;
+                --c-bg: #1e1e1e;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+            background-color: var(--c-bg);
+            color: var(--c-gray);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .header {
+            margin-bottom: 40px;
+        }
+
+        .status-code {
+            font-size: 6rem;
+            font-weight: 200;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .status-desc {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin: 10px 0 0;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        p {
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .footer {
+            border-top: 1px solid var(--c-light-gray);
+            padding-top: 20px;
+            font-size: 0.85rem;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-branding {
+            margin-left: auto;
+        }
+
+        .footer-branding a {
+            color: var(--c-gray);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-branding a:hover {
+            color: var(--c-blue);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1 class="status-code" id="code">{code}</h1>
+        <p class="status-desc" id="name">{name}</p>
+    </div>
+    <div class="content-grid">
+        <p id="msg">{msg}</p>
+    </div>
+    <div class="footer">
+        <div class="footer-branding">
+            <span id="pb">{pb}</span><a href="https://github.com/TASA-Ed/Url-Shorter-Worker" target="_blank">Url-Shorter-Worker</a>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+  const i18nKey = {
+    Name: 'Name',
+    Code405: 'Code405',
+    Title405: 'Title405',
+    Msg405: 'Msg405',
+    Code404: 'Code404',
+    Title404: 'Title404',
+    Msg404: 'Msg404',
+    Code403: 'Code403',
+    Title403: 'Title403',
+    Msg403: 'Msg403',
+    Code200: 'Code200',
+    Title200: 'Title200',
+    Msg200: 'Msg200',
+    pb: 'pb'
+  };
+
+  function i18n(key) {
+    const zh = {
+      [i18nKey.Name]: 'zh',
+      [i18nKey.Code405]: '405',
+      [i18nKey.Title405]: '不允许的方法',
+      [i18nKey.Msg405]: '您请求的方法不受支持。',
+      [i18nKey.Code404]: '404',
+      [i18nKey.Title404]: '未找到',
+      [i18nKey.Msg404]: '您所寻找的 URL 地址不存在。',
+      [i18nKey.Code403]: '403',
+      [i18nKey.Title403]: '拒绝访问',
+      [i18nKey.Msg403]: '密码错误。',
+      [i18nKey.Code200]: '欢迎您！',
+      [i18nKey.Title200]: '管理员。',
+      [i18nKey.Msg200]: 'Url-Shorter-Worker 正在运行中。',
+      [i18nKey.pb]: '技术支持：'
+    };
+    const zh_tw = {
+      [i18nKey.Name]: 'zh-TW',
+      [i18nKey.Code405]: '405',
+      [i18nKey.Title405]: '不允許的方法',
+      [i18nKey.Msg405]: '您請求的方法不受支持。',
+      [i18nKey.Code404]: '404',
+      [i18nKey.Title404]: '未找到',
+      [i18nKey.Msg404]: '您所尋找的 URL 地址不存在。',
+      [i18nKey.Code403]: '403',
+      [i18nKey.Title403]: '拒絕訪問',
+      [i18nKey.Msg403]: '密碼錯誤。',
+      [i18nKey.Code200]: '歡迎您！',
+      [i18nKey.Title200]: '管理員。',
+      [i18nKey.Msg200]: 'Url-Shorter-Worker 正在運行中。',
+      [i18nKey.pb]: '技術支持：'
+    };
+    const en = {
+      [i18nKey.Name]: 'en',
+      [i18nKey.Code405]: '405',
+      [i18nKey.Title405]: 'Method Not Allowed',
+      [i18nKey.Msg405]: 'The method you requested is not supported.',
+      [i18nKey.Code404]: '404',
+      [i18nKey.Title404]: 'Not Found',
+      [i18nKey.Msg404]: 'The URL you are looking for does not exist.',
+      [i18nKey.Code403]: '403',
+      [i18nKey.Title403]: 'Forbidden',
+      [i18nKey.Msg403]: 'Invalid password.',
+      [i18nKey.Code200]: 'Welcome!',
+      [i18nKey.Title200]: 'Administrator.',
+      [i18nKey.Msg200]: 'The URL-Shorter-Worker is running.',
+      [i18nKey.pb]: 'Powered by: '
+    };
+    const ru = {
+      [i18nKey.Name]: 'ru',
+      [i18nKey.Code405]: '405',
+      [i18nKey.Title405]: 'Метод не разрешен',
+      [i18nKey.Msg405]: 'Запрашиваемый метод не поддерживается.',
+      [i18nKey.Code404]: '404',
+      [i18nKey.Title404]: 'Не найдено',
+      [i18nKey.Msg404]: 'URL-адрес, который вы ищете, не существует.',
+      [i18nKey.Code403]: '403',
+      [i18nKey.Title403]: 'Запрещено',
+      [i18nKey.Msg403]: 'Неверный пароль.',
+      [i18nKey.Code200]: 'Добро пожаловать!',
+      [i18nKey.Title200]: 'Администратор.',
+      [i18nKey.Msg200]: 'URL-Shorter-Worker работает.',
+      [i18nKey.pb]: 'Приводится в действие: '
+    };
+    const ja = {
+      [i18nKey.Name]: 'ja',
+      [i18nKey.Code405]: '405',
+      [i18nKey.Title405]: '許可されていないメソッド',
+      [i18nKey.Msg405]: 'ご指定の方法がサポートされていません。',
+      [i18nKey.Code404]: '404',
+      [i18nKey.Title404]: '見つかりません',
+      [i18nKey.Msg404]: 'お探しのURLは存在しません。',
+      [i18nKey.Code403]: '403',
+      [i18nKey.Title403]: 'アクセス拒否',
+      [i18nKey.Msg403]: 'パスワードが間違っています。',
+      [i18nKey.Code200]: 'ようこそ！',
+      [i18nKey.Title200]: '管理者。',
+      [i18nKey.Msg200]: 'Url-Shorter-Worker は正常に動作中です。',
+      [i18nKey.pb]: '技術サポート：'
+    };
+    let lang;
+    switch ((navigator.language).toLowerCase()) {
+      case "zh":
+      case 'zh-cn':
+        lang = zh;
+        break;
+      case 'zh-tw':
+      case 'zh-hk':
+        lang = zh_tw;
+        break;
+      case "en":
+      case "en-us":
+      case "en-gb":
+        lang = en;
+        break;
+      case "ru":
+      case "ru-ru":
+        lang = ru;
+        break;
+      case "ja":
+      case "ja-ja":
+        lang = ja;
+        break;
+      default:
+        lang = en;
+    }
+    return lang[key];
+  }
+
+  function run() {
+    document.getElementById("msg").innerHTML = i18n(i18nKey.Msg{__code});
+    document.getElementById("code").innerHTML = i18n(i18nKey.Code{__code});
+    document.getElementById("name").innerHTML = i18n(i18nKey.Title{__code});
+    document.getElementById("pb").innerHTML = i18n(i18nKey.pb);
+    document.documentElement.lang = i18n(i18nKey.Name);
+    document.title = i18n(i18nKey.Code{__code}) + " " + i18n(i18nKey.Title{__code});
+  }
+
+  run();
+</script>
+</html>

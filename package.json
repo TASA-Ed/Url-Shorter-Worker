@@ -1,0 +1,19 @@
+{
+  "name": "url-shorter-worker",
+  "description": "",
+  "version": "2.0.0",
+  "contributors": [
+    "ccd2s <tasaedem@outlook.com>"
+  ],
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "cf-typegen": "wrangler types"
+  },
+  "devDependencies": {
+    "@types/node": "22.13.0",
+    "@types/service-worker-mock": "^2.0.4",
+    "wrangler": "^4.54.0"
+  }
+}
