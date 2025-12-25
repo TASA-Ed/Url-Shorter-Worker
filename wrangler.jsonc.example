@@ -5,16 +5,22 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "url-shorter-worker",
-  "workers_dev": true,
+  "workers_dev": false,
   "preview_urls": false,
   "main": "src/index.ts",
   "compatibility_date": "2025-12-24",
   "observability": {
     "enabled": false
   },
+  "routes": [
+    {
+      "pattern": "<routes_name>",
+      "zone_id": "<zone_id>"
+    }
+  ],
   "kv_namespaces": [
     {
-      "id": "<id>",
+      "id": "<kv_id>",
       "binding": "LINKSHORTERS"
     }
   ]

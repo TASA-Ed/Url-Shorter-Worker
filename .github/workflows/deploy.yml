@@ -1,0 +1,57 @@
+name: Deploy Cloudflare Worker
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy to Cloudflare Workers
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          # “最近更新时间” 等 git 日志相关信息，需要拉取全部提交记录
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set pnpm 10
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Set Node.js 22
+        uses: actions/setup-node@v5
+        with:
+          # 选择要使用的 node 版本
+          node-version: 22
+          # 缓存 pnpm 依赖
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate wrangler.jsonc from template
+        run: |
+          sed -e "s/<routes_name>/${{ vars.ROUTES_NAME }}/g" \
+              -e "s/<zone_id>/${{ vars.ZONE_ID }}/g" \
+              -e "s/<kv_id>/${{ vars.KV_ID }}/g" \
+              wrangler.jsonc.example > wrangler.jsonc
+          echo "Generated wrangler.jsonc:"
+          cat wrangler.jsonc
+
+      - name: Build TypeScript
+        run: pnpm run wrangler types
+
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
