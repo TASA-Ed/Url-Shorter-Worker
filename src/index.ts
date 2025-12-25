@@ -266,6 +266,7 @@ async function handlePost(request: Request, url: URL, env: Env): Promise<Respons
         case "delete":
           const keyToDelete = body.short_key;
           if (!keyToDelete) return jsonResponse({success: false, error: "Missing short_key."}, 400, env);
+          if (keyToDelete==="_icon") return jsonResponse({success: false, error: "You can't delete '_icon'."}, 403, env);
           // 检查是否存在
           if (!await env.LINKSHORTERS.get(keyToDelete)) return jsonResponse({
             success: false,
