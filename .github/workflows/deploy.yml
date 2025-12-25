@@ -47,7 +47,7 @@ jobs:
           cat wrangler.jsonc
 
       - name: Build TypeScript
-        run: pnpm run wrangler types
+        run: pnpm run cf-typegen
 
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
