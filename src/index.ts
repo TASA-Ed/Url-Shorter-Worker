@@ -1,3 +1,6 @@
+// 本文件代码基于 [Url-Shorten-Worker](https://github.com/xyTom/Url-Shorten-Worker) 的逻辑重写。
+// 原项目版权归 [xyTom](https://github.com/xyTom) 所有。
+
 import page404 from "./res/404.html";
 import page302 from "./res/302.html";
 
