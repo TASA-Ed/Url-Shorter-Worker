@@ -272,7 +272,7 @@ async function handlePost(request: Request, url: URL, env: Env): Promise<Respons
 /**
  * 处理 GET 请求
  */
-async function handleGet(request: Request, url: URL, env: Env): Promise<Response> {
+async function handleGet(url: URL, env: Env): Promise<Response> {
   const urls = url.pathname.split("/");
 
   // 检查保留路径
@@ -281,8 +281,6 @@ async function handleGet(request: Request, url: URL, env: Env): Promise<Response
       headers: { "content-type": "text/html;charset=UTF-8" },
       status: 404
     });
-  if (reservedKeys.all.includes(urls[1]))
-    return env.ASSETS.fetch(request);
 
   // 获取目标 URL
   const targetUrl = await env.LINKSHORTERS.get(urls[1]);
@@ -366,7 +364,7 @@ async function handleRequest(request: Request, env: Env): Promise<Response> {
 
   // 处理 GET 请求
   if (request.method === "GET")
-    return handleGet(request, url, env);
+    return handleGet(url, env);
 
   // 处理 DELETE 请求 - 删除短链接
   if (request.method === "DELETE")
