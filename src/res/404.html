@@ -127,100 +127,46 @@
 <script>
   const i18nKey = {
     Name: 'Name',
-    Code405: 'Code405',
-    Title405: 'Title405',
-    Msg405: 'Msg405',
     Code404: 'Code404',
     Title404: 'Title404',
     Msg404: 'Msg404',
-    Code403: 'Code403',
-    Title403: 'Title403',
-    Msg403: 'Msg403',
-    Code200: 'Code200',
-    Title200: 'Title200',
-    Msg200: 'Msg200',
     pb: 'pb'
   };
 
   function i18n(key) {
     const zh = {
       [i18nKey.Name]: 'zh',
-      [i18nKey.Code405]: '405',
-      [i18nKey.Title405]: '不允许的方法',
-      [i18nKey.Msg405]: '您请求的方法不受支持。',
       [i18nKey.Code404]: '404',
       [i18nKey.Title404]: '未找到',
       [i18nKey.Msg404]: '您所寻找的 URL 地址不存在。',
-      [i18nKey.Code403]: '403',
-      [i18nKey.Title403]: '拒绝访问',
-      [i18nKey.Msg403]: '密码错误。',
-      [i18nKey.Code200]: '欢迎您！',
-      [i18nKey.Title200]: '管理员。',
-      [i18nKey.Msg200]: 'Url-Shorter-Worker 正在运行中。',
       [i18nKey.pb]: '技术支持：'
     };
     const zh_tw = {
       [i18nKey.Name]: 'zh-TW',
-      [i18nKey.Code405]: '405',
-      [i18nKey.Title405]: '不允許的方法',
-      [i18nKey.Msg405]: '您請求的方法不受支持。',
       [i18nKey.Code404]: '404',
       [i18nKey.Title404]: '未找到',
       [i18nKey.Msg404]: '您所尋找的 URL 地址不存在。',
-      [i18nKey.Code403]: '403',
-      [i18nKey.Title403]: '拒絕訪問',
-      [i18nKey.Msg403]: '密碼錯誤。',
-      [i18nKey.Code200]: '歡迎您！',
-      [i18nKey.Title200]: '管理員。',
-      [i18nKey.Msg200]: 'Url-Shorter-Worker 正在運行中。',
       [i18nKey.pb]: '技術支持：'
     };
     const en = {
       [i18nKey.Name]: 'en',
-      [i18nKey.Code405]: '405',
-      [i18nKey.Title405]: 'Method Not Allowed',
-      [i18nKey.Msg405]: 'The method you requested is not supported.',
       [i18nKey.Code404]: '404',
       [i18nKey.Title404]: 'Not Found',
       [i18nKey.Msg404]: 'The URL you are looking for does not exist.',
-      [i18nKey.Code403]: '403',
-      [i18nKey.Title403]: 'Forbidden',
-      [i18nKey.Msg403]: 'Invalid password.',
-      [i18nKey.Code200]: 'Welcome!',
-      [i18nKey.Title200]: 'Administrator.',
-      [i18nKey.Msg200]: 'The URL-Shorter-Worker is running.',
       [i18nKey.pb]: 'Powered by: '
     };
     const ru = {
       [i18nKey.Name]: 'ru',
-      [i18nKey.Code405]: '405',
-      [i18nKey.Title405]: 'Метод не разрешен',
-      [i18nKey.Msg405]: 'Запрашиваемый метод не поддерживается.',
       [i18nKey.Code404]: '404',
       [i18nKey.Title404]: 'Не найдено',
       [i18nKey.Msg404]: 'URL-адрес, который вы ищете, не существует.',
-      [i18nKey.Code403]: '403',
-      [i18nKey.Title403]: 'Запрещено',
-      [i18nKey.Msg403]: 'Неверный пароль.',
-      [i18nKey.Code200]: 'Добро пожаловать!',
-      [i18nKey.Title200]: 'Администратор.',
-      [i18nKey.Msg200]: 'URL-Shorter-Worker работает.',
       [i18nKey.pb]: 'Приводится в действие: '
     };
     const ja = {
       [i18nKey.Name]: 'ja',
-      [i18nKey.Code405]: '405',
-      [i18nKey.Title405]: '許可されていないメソッド',
-      [i18nKey.Msg405]: 'ご指定の方法がサポートされていません。',
       [i18nKey.Code404]: '404',
       [i18nKey.Title404]: '見つかりません',
       [i18nKey.Msg404]: 'お探しのURLは存在しません。',
-      [i18nKey.Code403]: '403',
-      [i18nKey.Title403]: 'アクセス拒否',
-      [i18nKey.Msg403]: 'パスワードが間違っています。',
-      [i18nKey.Code200]: 'ようこそ！',
-      [i18nKey.Title200]: '管理者。',
-      [i18nKey.Msg200]: 'Url-Shorter-Worker は正常に動作中です。',
       [i18nKey.pb]: '技術サポート：'
     };
     let lang;
@@ -253,12 +199,12 @@
   }
 
   function run() {
-    document.getElementById("msg").innerHTML = i18n(i18nKey.Msg{__code});
-    document.getElementById("code").innerHTML = i18n(i18nKey.Code{__code});
-    document.getElementById("name").innerHTML = i18n(i18nKey.Title{__code});
+    document.getElementById("msg").innerHTML = i18n(i18nKey.Msg404);
+    document.getElementById("code").innerHTML = i18n(i18nKey.Code404);
+    document.getElementById("name").innerHTML = i18n(i18nKey.Title404);
     document.getElementById("pb").innerHTML = i18n(i18nKey.pb);
     document.documentElement.lang = i18n(i18nKey.Name);
-    document.title = i18n(i18nKey.Code{__code}) + " " + i18n(i18nKey.Title{__code});
+    document.title = i18n(i18nKey.Code404) + " " + i18n(i18nKey.Title404);
   }
 
   run();

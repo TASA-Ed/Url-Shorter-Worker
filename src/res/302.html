@@ -22,10 +22,20 @@
       [i18nKey.Title302]: '重定向中...',
       [i18nKey.Msg302]: '重定向至',
     };
+    const zh_tw = {
+      [i18nKey.Name]: 'zh',
+      [i18nKey.Title302]: '重定向中...',
+      [i18nKey.Msg302]: '重定向至',
+    };
     const en = {
       [i18nKey.Name]: 'en',
       [i18nKey.Title302]: 'Redirecting...',
       [i18nKey.Msg302]: 'Redirect to',
+    };
+    const ja = {
+      [i18nKey.Name]: 'en',
+      [i18nKey.Title302]: 'リダイレクト中...',
+      [i18nKey.Msg302]: 'リダイレクト先',
     };
     const ru = {
       [i18nKey.Name]: 'ru',
@@ -36,16 +46,24 @@
     switch ((navigator.language).toLowerCase()) {
       case "zh":
       case 'zh-cn':
-      case 'zh-tw':
         lang = zh;
+        break;
+      case 'zh-tw':
+      case 'zh-hk':
+        lang = zh_tw;
         break;
       case "en":
       case "en-us":
+      case "en-gb":
         lang = en;
         break;
       case "ru":
       case "ru-ru":
         lang = ru;
+        break;
+      case "ja":
+      case "ja-ja":
+        lang = ja;
         break;
       default:
         lang = en;

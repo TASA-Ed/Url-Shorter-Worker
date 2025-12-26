@@ -23,5 +23,9 @@
       "id": "<kv_id>",
       "binding": "LINKSHORTERS"
     }
-  ]
+  ],
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  }
 }
