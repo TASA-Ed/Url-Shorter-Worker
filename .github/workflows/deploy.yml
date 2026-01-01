@@ -39,9 +39,9 @@ jobs:
 
       - name: Generate wrangler.jsonc from template
         run: |
-          sed -e "s|<routes_name>|${{ vars.ROUTES_NAME }}|g" \
-              -e "s|<zone_id>|${{ vars.ZONE_ID }}|g" \
-              -e "s|<kv_id>|${{ vars.KV_ID }}|g" \
+          sed -e "s|<routes_name>|${{ secrets.ROUTES_NAME }}|g" \
+              -e "s|<zone_id>|${{ secrets.ZONE_ID }}|g" \
+              -e "s|<kv_id>|${{ secrets.KV_ID }}|g" \
               wrangler.jsonc.example > wrangler.jsonc
 
       - name: Build TypeScript
